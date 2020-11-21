@@ -1,0 +1,44 @@
+server:
+  port: 1001
+  tomcat:
+    max-threads: 100
+spring:
+  application:
+    name: uaa-service
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/user_db?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456789
+    #redis 配置
+  redis:
+    host: 47.98.107.200
+    password: 123456
+    port: 6379
+    # redis 连接池配置
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+      shutdown-timeout: 100
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+          dialect: org.hibernate.dialect.MySQLSInnoDBDialect
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.98.107.200:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 9999
+
+  main:
+    allow-bean-definition-overriding: true
+  session:
+    store-type: redis

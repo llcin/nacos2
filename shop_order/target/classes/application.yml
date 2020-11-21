@@ -1,0 +1,35 @@
+server:
+  port: 8091
+  tomcat:
+    max-threads: 10
+spring:
+  application:
+    name: service-order
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/shop?characterEncoding=utf-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456789
+  session:
+    store-type: redis
+  redis:
+    host: 47.98.107.200
+    password: 123456
+    port: 6379
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+          dialect: org.hibernate.dialect.MySQLSInnoDBDialect
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.98.107.200:8848
+    sentinel:
+      transport:
+        dashboard: localhost:8080
+        port: 9999
+feign:
+  sentinel:
+    enabled: true

@@ -1,0 +1,36 @@
+server:
+  port: 7000
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 47.98.107.200:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes: #路由数组（路由就是值当前请求满足什么样的条件的时候转发到什么微服务上）
+        - id: product_route #当前路由发的标识，要求唯一
+          uri: lb://service-product
+          order: 1         #路由的优先级，数组越小代表的路由优先级越高。
+          predicates:      #断言（条件判断，返回值是boolean）
+            - Path=/product-serv/**
+          #  - Age=18,50
+          filters: #请求在传递过程中，可以做一些处理
+            - SetStatus=250
+            - StripPrefix=1 #请求前去掉一层路径  localhost:7070/product-serv/product/1 -->localhost:8081/product/1
+            - Log=true,false
+        - id: order_route #当前路由发的标识，要求唯一
+          uri: lb://service-order
+          order: 1         #路由的优先级，数组越小代表的路由优先级越高。
+          predicates:      #断言（条件判断，返回值是boolean）
+            - Path=/order-serv/**
+          #  - Age=18,50
+          filters: #请求在传递过程中，可以做一些处理
+            - SetStatus=250
+            - StripPrefix=1 #请求前去掉一层路径  localhost:7070/product-serv/product/1 -->localhost:8081/product/1
+            - Log=true,false
